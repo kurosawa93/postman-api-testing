@@ -1,0 +1,83 @@
+openapi: '3.0.0'
+info:
+  version: '1.0.0'
+  title: 'Sample API'
+  description: Buy or rent spacecrafts
+
+paths:
+  /customers/detail:
+    get:
+      security:
+        - customerAuth: []
+      summary: Get a Customer Details
+      responses:
+        '200':
+          description: Details of customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+components:
+  schemas:
+    SpacecraftId:
+      description: The unique identifier of a spacecraft
+      type: string
+    Wallet:
+      type: object
+      required:
+        - id
+        - walletNo
+        - currency
+        - balance
+        - customerId
+      properties:
+        id:
+          type: string
+        walletNo:
+          type: string
+        currency:
+          type: string
+        balance:
+          type: number
+        customerId:
+          type: string
+    Customer:
+      type: object
+      required:
+        - id
+        - email
+        - fullName
+        - idNumber
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        fullName:
+          type: string
+        idNumber:
+          type: string
+        wallets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Wallet'
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          description: A human readable error message
+          type: string
+  securitySchemes:
+    customerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+security:
+  - ApiKey: []
+  - customerAuth: []
