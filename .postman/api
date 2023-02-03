@@ -11,6 +11,7 @@ files[] = {"id":"2641308-69258eb2-c9b3-41e9-829a-c5873ef15864","path":"wallet-ap
 
 [relations.apiDefinition]
 rootDirectory = postman/schemas
+files[] = {"path":"index.yaml","metaData":{}}
 
 [relations.apiDefinition.metaData]
 type = openapi:3

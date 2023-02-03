@@ -8,6 +8,47 @@
 	"item": [
 		{
 			"name": "Create Customer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ff9a528d-823f-44ec-81bf-afc28c9877e4",
+						"exec": [
+							"pm.collectionVariables.set(\"email\", pm.iterationData.get(\"email\"));",
+							"pm.collectionVariables.set(\"fullName\", pm.iterationData.get(\"fullName\"));",
+							"pm.collectionVariables.set(\"idNumber\", pm.iterationData.get(\"idNumber\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "de565701-9e6f-4a7b-9a1f-110d75403bf6",
+						"exec": [
+							"const email = pm.collectionVariables.get(\"email\");",
+							"",
+							"if (email === \"test@mail.co\") {",
+							"    pm.test(\"Customer with Wallet\", () => {",
+							"        pm.response.to.have.status(201);",
+							"    });",
+							"",
+							"    postman.setNextRequest(\"Create Wallet\");",
+							"}",
+							"",
+							"if (email === \"test2@mail.co\") {",
+							"    pm.test(\"Customer without Wallet\", () => {",
+							"        pm.response.to.have.status(201);",
+							"    });",
+							"",
+							"    postman.setNextRequest(\"Customer Detail\");",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"id": "eb50d744-2f07-4914-a75c-e1f6b588c30d",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
@@ -17,7 +58,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"15e5e672-2eaf-4f67-8da4-b584f54d5765\",\n    \"email\": \"test@mail.co\",\n    \"fullName\": \"Test User\",\n    \"idNumber\": \"321503010119010001\"\n}",
+					"raw": "{\n    \"id\": \"{{$guid}}\",\n    \"email\": \"{{email}}\",\n    \"fullName\": \"{{fullName}}\",\n    \"idNumber\": \"{{idNumber}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -39,131 +80,82 @@
 			"response": []
 		},
 		{
-			"name": "Customer Detail",
-			"id": "5e1964c6-8da7-4911-a603-39b1d855f18d",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "oauth2",
-					"oauth2": [
-						{
-							"key": "clientId",
-							"value": "simplewalletapis-web",
-							"type": "string"
-						},
-						{
-							"key": "accessTokenUrl",
-							"value": "http://localhost:9080/auth/realms/simplewalletapi/protocol/openid-connect/token",
-							"type": "string"
-						},
-						{
-							"key": "authUrl",
-							"value": "http://localhost:9080/auth/realms/simplewalletapi/protocol/openid-connect/auth",
-							"type": "string"
-						},
-						{
-							"key": "clientSecret",
-							"value": "",
-							"type": "string"
-						},
-						{
-							"key": "redirect_uri",
-							"value": "http://localhost:8080/auth/callback",
-							"type": "string"
-						},
-						{
-							"key": "grant_type",
-							"value": "authorization_code",
-							"type": "string"
-						},
-						{
-							"key": "scope",
-							"value": "profile",
-							"type": "string"
-						},
-						{
-							"key": "addTokenTo",
-							"value": "header",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/customers/detail",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"customers",
-						"detail"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Create Wallet",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "66ea5706-6a53-4ba5-9611-d48ff4ffda18",
+						"exec": [
+							"const tokenOpts = {",
+							"    url: \"http://localhost:9080/auth/realms/simplewalletapi/protocol/openid-connect/token\",",
+							"    method: \"POST\",",
+							"    headers: {",
+							"        \"Content-Type\": \"application/x-www-form-urlencoded\"",
+							"    },",
+							"    body: {",
+							"        mode: 'urlencoded',",
+							"        urlencoded: [",
+							"            {key: \"grant_type\", value: \"password\"},",
+							"            {key: \"client_id\", value: \"simplewalletapis-web\"},",
+							"            {key: \"username\", value: \"test@mail.co\"},",
+							"            {key: \"password\", value: \"password\"},",
+							"            {key: \"scope\", value: \"profile\"},",
+							"        ]",
+							"    }",
+							"}",
+							"",
+							"pm.sendRequest(tokenOpts, (error, response) => {",
+							"    pm.expect(error).to.equal(null);",
+							"    pm.expect(response).to.have.property('code', 200);",
+							"    ",
+							"    const resp = response.json();",
+							"    pm.collectionVariables.set(\"accessToken\", resp['access_token']);",
+							"})",
+							"",
+							"pm.collectionVariables.set(\"walletNo\", pm.iterationData.get(\"walletNo\"));",
+							"pm.collectionVariables.set(\"currency\", pm.iterationData.get(\"currency\"));",
+							"pm.collectionVariables.set(\"balance\", pm.iterationData.get(\"balance\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "dc5dd054-39b4-43fa-89bc-52d76f1b44c0",
+						"exec": [
+							"const email = pm.collectionVariables.get(\"email\");",
+							"",
+							"if (email === \"test@mail.co\") {",
+							"    pm.test(\"Create Wallet Success\", () => {",
+							"        pm.response.to.have.status(201);",
+							"    })",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"id": "665ba333-65ee-4e04-9e18-7a02372860be",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
 			"request": {
 				"auth": {
-					"type": "oauth2",
-					"oauth2": [
-						{
-							"key": "clientId",
-							"value": "simplewalletapis-web",
-							"type": "string"
-						},
-						{
-							"key": "accessTokenUrl",
-							"value": "http://localhost:9080/auth/realms/simplewalletapi/protocol/openid-connect/token",
-							"type": "string"
-						},
-						{
-							"key": "authUrl",
-							"value": "http://localhost:9080/auth/realms/simplewalletapi/protocol/openid-connect/auth",
-							"type": "string"
-						},
-						{
-							"key": "clientSecret",
-							"value": "",
-							"type": "string"
-						},
-						{
-							"key": "redirect_uri",
-							"value": "http://localhost:8080/auth/callback",
-							"type": "string"
-						},
-						{
-							"key": "grant_type",
-							"value": "authorization_code",
-							"type": "string"
-						},
-						{
-							"key": "scope",
-							"value": "profile",
-							"type": "string"
-						},
-						{
-							"key": "addTokenTo",
-							"value": "header",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"{{$guid}}\",\n    \"walletNo\": \"30100001\",\n    \"currency\": \"IDR\",\n    \"balance\": 1000000\n}",
+					"raw": "{\n    \"id\": \"{{$guid}}\",\n    \"walletNo\": \"{{walletNo}}\",\n    \"currency\": \"{{currency}}\",\n    \"balance\": {{balance}}\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -183,6 +175,158 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Customer Detail",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f5455b12-ce91-4a1a-b8df-577969147833",
+						"exec": [
+							"const username = pm.iterationData.get(\"email\");",
+							"const password = pm.iterationData.get(\"password\");",
+							"",
+							"const tokenOpts = {",
+							"    url: \"http://localhost:9080/auth/realms/simplewalletapi/protocol/openid-connect/token\",",
+							"    method: \"POST\",",
+							"    headers: {",
+							"        \"Content-Type\": \"application/x-www-form-urlencoded\"",
+							"    },",
+							"    body: {",
+							"        mode: 'urlencoded',",
+							"        urlencoded: [",
+							"            {key: \"grant_type\", value: \"password\"},",
+							"            {key: \"client_id\", value: \"simplewalletapis-web\"},",
+							"            {key: \"username\", value: username},",
+							"            {key: \"password\", value: password},",
+							"            {key: \"scope\", value: \"profile\"},",
+							"        ]",
+							"    }",
+							"}",
+							"",
+							"pm.sendRequest(tokenOpts, (error, response) => {",
+							"    pm.expect(error).to.equal(null);",
+							"    pm.expect(response).to.have.property('code', 200);",
+							"    ",
+							"    const resp = response.json();",
+							"    pm.collectionVariables.set(\"accessToken\", resp['access_token']);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b0df8d1-4a42-42e8-8439-bf5714e024b7",
+						"exec": [
+							"const email = pm.collectionVariables.get(\"email\");",
+							"const fullName = pm.collectionVariables.get(\"fullName\");",
+							"const idNumber = pm.collectionVariables.get(\"idNumber\");",
+							"",
+							"const customer = pm.response.json();",
+							"const wallets = customer['wallets'];",
+							"",
+							"pm.test(\"Customer Detail\", () => {",
+							"    pm.response.to.have.status(200);",
+							"        ",
+							"    pm.expect(customer[\"email\"]).eql(email);",
+							"    pm.expect(customer[\"fullName\"]).eql(fullName);",
+							"    pm.expect(customer[\"idNumber\"]).eql(idNumber);",
+							"})",
+							"",
+							"if (email === \"test@mail.co\") {",
+							"    pm.test(\"Customer with Wallet\", () => {",
+							"",
+							"        const walletNo = pm.collectionVariables.get(\"walletNo\");",
+							"        const currency = pm.collectionVariables.get(\"currency\");",
+							"        const balance = pm.collectionVariables.get(\"balance\");",
+							"",
+							"        pm.expect(wallets.length).eql(1);",
+							"        pm.expect(wallets[0][\"walletNo\"]).eql(\"\" + walletNo);",
+							"        pm.expect(wallets[0][\"currency\"]).eql(currency);",
+							"        pm.expect(wallets[0][\"balance\"]).eql(balance);",
+							"    });",
+							"}",
+							"",
+							"if (email === \"test2@mail.co\") {",
+							"    pm.test(\"Customer without Wallet\", () => {",
+							"        pm.expect(wallets).undefined;",
+							"    });",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "5e1964c6-8da7-4911-a603-39b1d855f18d",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/customers/detail",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customers",
+						"detail"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "d2e452a5-e3c0-4462-a361-e25b29b0eb0a",
+			"key": "accessToken",
+			"value": ""
+		},
+		{
+			"id": "d50b27a3-cbe2-40c9-83e6-60f2f140cdea",
+			"key": "email",
+			"value": ""
+		},
+		{
+			"id": "a6561900-9a5b-4ca3-beac-7288884bd70e",
+			"key": "fullName",
+			"value": ""
+		},
+		{
+			"id": "e6ebec10-92ee-4e68-91c3-65b42a30506c",
+			"key": "idNumber",
+			"value": ""
+		},
+		{
+			"id": "d554a3f4-f7e1-4ed0-9fff-93cfc465fd49",
+			"key": "walletNo",
+			"value": ""
+		},
+		{
+			"id": "a2e4f45f-befe-497e-aac2-b53cecd46cea",
+			"key": "currency",
+			"value": ""
+		},
+		{
+			"id": "ab5750c6-81e3-4e46-a2f7-75e622df5094",
+			"key": "balance",
+			"value": ""
 		}
 	]
 }
