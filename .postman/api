@@ -5,6 +5,7 @@ id = dc3a1668-aa7e-49ca-a53c-86b470f59d94
 
 [relations.collections]
 rootDirectory = postman/collections
+files[] = {"id":"2641308-fcc62b3b-d230-4b3c-af3b-97355eab9e5a","path":"wallet-api Copy.json","metaData":{}}
 files[] = {"id":"2641308-69258eb2-c9b3-41e9-829a-c5873ef15864","path":"wallet-api.json","metaData":{}}
 
 [relations.collections.metaData]
