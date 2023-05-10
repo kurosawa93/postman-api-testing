@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "69258eb2-c9b3-41e9-829a-c5873ef15864",
+		"_postman_id": "ada15718-b953-4d50-8b1b-7a9da460ffd2",
 		"name": "wallet-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_uid": "2641308-69258eb2-c9b3-41e9-829a-c5873ef15864"
+		"_uid": "2641308-ada15718-b953-4d50-8b1b-7a9da460ffd2"
 	},
 	"item": [
 		{
@@ -12,7 +12,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "ff9a528d-823f-44ec-81bf-afc28c9877e4",
+						"id": "9b638329-5949-4cb2-95f9-90fdd0fae034",
 						"exec": [
 							"pm.collectionVariables.set(\"email\", pm.iterationData.get(\"email\"));",
 							"pm.collectionVariables.set(\"fullName\", pm.iterationData.get(\"fullName\"));",
@@ -24,7 +24,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "de565701-9e6f-4a7b-9a1f-110d75403bf6",
+						"id": "2fe61759-e480-4ed2-903d-6182c245964b",
 						"exec": [
 							"const email = pm.collectionVariables.get(\"email\");",
 							"",
@@ -49,7 +49,7 @@
 					}
 				}
 			],
-			"id": "eb50d744-2f07-4914-a75c-e1f6b588c30d",
+			"id": "7a3b30df-dc18-4426-b622-8812a0fb444b",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -85,7 +85,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "66ea5706-6a53-4ba5-9611-d48ff4ffda18",
+						"id": "3c7b8f1b-2d4b-4040-820b-5bda8e416212",
 						"exec": [
 							"const tokenOpts = {",
 							"    url: \"http://localhost:9080/auth/realms/simplewalletapi/protocol/openid-connect/token\",",
@@ -123,7 +123,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "dc5dd054-39b4-43fa-89bc-52d76f1b44c0",
+						"id": "10f65a1f-a99d-46f1-88b8-e408c81e3e2c",
 						"exec": [
 							"const email = pm.collectionVariables.get(\"email\");",
 							"",
@@ -137,7 +137,7 @@
 					}
 				}
 			],
-			"id": "665ba333-65ee-4e04-9e18-7a02372860be",
+			"id": "07d3bd79-a781-4422-86a5-b32632312410",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -182,7 +182,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "f5455b12-ce91-4a1a-b8df-577969147833",
+						"id": "f8d77438-72e8-4ea1-99f0-2582d9a1a5d0",
 						"exec": [
 							"const username = pm.iterationData.get(\"email\");",
 							"const password = pm.iterationData.get(\"password\");",
@@ -219,7 +219,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2b0df8d1-4a42-42e8-8439-bf5714e024b7",
+						"id": "e4277444-1e4a-4980-8a86-52b98aae489d",
 						"exec": [
 							"const email = pm.collectionVariables.get(\"email\");",
 							"const fullName = pm.collectionVariables.get(\"fullName\");",
@@ -260,7 +260,7 @@
 					}
 				}
 			],
-			"id": "5e1964c6-8da7-4911-a603-39b1d855f18d",
+			"id": "cd1fd146-9719-4ac3-9a8e-2a2b4f85e41f",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -294,37 +294,37 @@
 	],
 	"variable": [
 		{
-			"id": "d2e452a5-e3c0-4462-a361-e25b29b0eb0a",
+			"id": "43ea62de-4d63-4e82-b133-1e9054e04b38",
 			"key": "accessToken",
 			"value": ""
 		},
 		{
-			"id": "d50b27a3-cbe2-40c9-83e6-60f2f140cdea",
+			"id": "409fb9ab-06a7-4b4e-bcdc-931c8efa2d5f",
 			"key": "email",
 			"value": ""
 		},
 		{
-			"id": "a6561900-9a5b-4ca3-beac-7288884bd70e",
+			"id": "254115cb-0a84-4b6f-af42-d60fb2d959b0",
 			"key": "fullName",
 			"value": ""
 		},
 		{
-			"id": "e6ebec10-92ee-4e68-91c3-65b42a30506c",
+			"id": "732c7101-9508-4298-ae28-6b35a1df13db",
 			"key": "idNumber",
 			"value": ""
 		},
 		{
-			"id": "d554a3f4-f7e1-4ed0-9fff-93cfc465fd49",
+			"id": "d66d1cc8-b69b-48cf-9c52-d3c82c9a8c9d",
 			"key": "walletNo",
 			"value": ""
 		},
 		{
-			"id": "a2e4f45f-befe-497e-aac2-b53cecd46cea",
+			"id": "63e07877-346c-439f-a35d-44e38886b857",
 			"key": "currency",
 			"value": ""
 		},
 		{
-			"id": "ab5750c6-81e3-4e46-a2f7-75e622df5094",
+			"id": "a3593930-5a71-438b-ad7e-ab2ac49987d8",
 			"key": "balance",
 			"value": ""
 		}
