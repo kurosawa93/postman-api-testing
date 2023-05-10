@@ -87,31 +87,31 @@
 					"script": {
 						"id": "3c7b8f1b-2d4b-4040-820b-5bda8e416212",
 						"exec": [
-							"const tokenOpts = {",
-							"    url: \"http://localhost:9080/auth/realms/simplewalletapi/protocol/openid-connect/token\",",
-							"    method: \"POST\",",
-							"    headers: {",
-							"        \"Content-Type\": \"application/x-www-form-urlencoded\"",
-							"    },",
-							"    body: {",
-							"        mode: 'urlencoded',",
-							"        urlencoded: [",
-							"            {key: \"grant_type\", value: \"password\"},",
-							"            {key: \"client_id\", value: \"simplewalletapis-web\"},",
-							"            {key: \"username\", value: \"test@mail.co\"},",
-							"            {key: \"password\", value: \"password\"},",
-							"            {key: \"scope\", value: \"profile\"},",
-							"        ]",
-							"    }",
-							"}",
+							"// const tokenOpts = {",
+							"//     url: \"http://localhost:9080/auth/realms/simplewalletapi/protocol/openid-connect/token\",",
+							"//     method: \"POST\",",
+							"//     headers: {",
+							"//         \"Content-Type\": \"application/x-www-form-urlencoded\"",
+							"//     },",
+							"//     body: {",
+							"//         mode: 'urlencoded',",
+							"//         urlencoded: [",
+							"//             {key: \"grant_type\", value: \"password\"},",
+							"//             {key: \"client_id\", value: \"simplewalletapis-web\"},",
+							"//             {key: \"username\", value: \"test@mail.co\"},",
+							"//             {key: \"password\", value: \"password\"},",
+							"//             {key: \"scope\", value: \"profile\"},",
+							"//         ]",
+							"//     }",
+							"// }",
 							"",
-							"pm.sendRequest(tokenOpts, (error, response) => {",
-							"    pm.expect(error).to.equal(null);",
-							"    pm.expect(response).to.have.property('code', 200);",
+							"// pm.sendRequest(tokenOpts, (error, response) => {",
+							"//     pm.expect(error).to.equal(null);",
+							"//     pm.expect(response).to.have.property('code', 200);",
 							"    ",
-							"    const resp = response.json();",
-							"    pm.collectionVariables.set(\"accessToken\", resp['access_token']);",
-							"})",
+							"//     const resp = response.json();",
+							"//     pm.collectionVariables.set(\"accessToken\", resp['access_token']);",
+							"// })",
 							"",
 							"pm.collectionVariables.set(\"walletNo\", pm.iterationData.get(\"walletNo\"));",
 							"pm.collectionVariables.set(\"currency\", pm.iterationData.get(\"currency\"));",
@@ -184,34 +184,34 @@
 					"script": {
 						"id": "f8d77438-72e8-4ea1-99f0-2582d9a1a5d0",
 						"exec": [
-							"const username = pm.iterationData.get(\"email\");",
-							"const password = pm.iterationData.get(\"password\");",
+							"// const username = pm.iterationData.get(\"email\");",
+							"// const password = pm.iterationData.get(\"password\");",
 							"",
-							"const tokenOpts = {",
-							"    url: \"http://localhost:9080/auth/realms/simplewalletapi/protocol/openid-connect/token\",",
-							"    method: \"POST\",",
-							"    headers: {",
-							"        \"Content-Type\": \"application/x-www-form-urlencoded\"",
-							"    },",
-							"    body: {",
-							"        mode: 'urlencoded',",
-							"        urlencoded: [",
-							"            {key: \"grant_type\", value: \"password\"},",
-							"            {key: \"client_id\", value: \"simplewalletapis-web\"},",
-							"            {key: \"username\", value: username},",
-							"            {key: \"password\", value: password},",
-							"            {key: \"scope\", value: \"profile\"},",
-							"        ]",
-							"    }",
-							"}",
+							"// const tokenOpts = {",
+							"//     url: \"http://localhost:9080/auth/realms/simplewalletapi/protocol/openid-connect/token\",",
+							"//     method: \"POST\",",
+							"//     headers: {",
+							"//         \"Content-Type\": \"application/x-www-form-urlencoded\"",
+							"//     },",
+							"//     body: {",
+							"//         mode: 'urlencoded',",
+							"//         urlencoded: [",
+							"//             {key: \"grant_type\", value: \"password\"},",
+							"//             {key: \"client_id\", value: \"simplewalletapis-web\"},",
+							"//             {key: \"username\", value: username},",
+							"//             {key: \"password\", value: password},",
+							"//             {key: \"scope\", value: \"profile\"},",
+							"//         ]",
+							"//     }",
+							"// }",
 							"",
-							"pm.sendRequest(tokenOpts, (error, response) => {",
-							"    pm.expect(error).to.equal(null);",
-							"    pm.expect(response).to.have.property('code', 200);",
+							"// pm.sendRequest(tokenOpts, (error, response) => {",
+							"//     pm.expect(error).to.equal(null);",
+							"//     pm.expect(response).to.have.property('code', 200);",
 							"    ",
-							"    const resp = response.json();",
-							"    pm.collectionVariables.set(\"accessToken\", resp['access_token']);",
-							"})"
+							"//     const resp = response.json();",
+							"//     pm.collectionVariables.set(\"accessToken\", resp['access_token']);",
+							"// })"
 						],
 						"type": "text/javascript"
 					}
@@ -290,43 +290,161 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a37c082b-2e57-4f6f-a907-99caf44235a7",
+						"exec": [
+							"pm.collectionVariables.set(\"email\", pm.iterationData.get(\"email\"));",
+							"pm.collectionVariables.set(\"password\", pm.iterationData.get(\"password\"));",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5bc991ad-b968-434a-8375-d2282244af52",
+						"exec": [
+							"pm.test(\"Login Success\", () => {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    const resp = pm.response.json();",
+							"    pm.expect(resp.access_token).to.not.eql(\"\");",
+							"",
+							"    pm.collectionVariables.set(\"variable_key\", resp.access_token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "a21e98e2-c1c2-4560-a8ca-201dc1b7f8fe",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "simplewalletapis-web",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "{{email}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "profile",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:9080/auth/realms/simplewalletapi/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9080",
+					"path": [
+						"auth",
+						"realms",
+						"simplewalletapi",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "aa34be32-e679-42e3-bb9f-2f5fbeb0b267",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "202ddce2-7efc-49e1-9e01-8350a3f89b26",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	],
 	"variable": [
 		{
-			"id": "43ea62de-4d63-4e82-b133-1e9054e04b38",
+			"id": "6499f518-5752-4837-bea0-fe050a3901b0",
 			"key": "accessToken",
 			"value": ""
 		},
 		{
-			"id": "409fb9ab-06a7-4b4e-bcdc-931c8efa2d5f",
+			"id": "e94cbfd6-5fcc-47d1-b1d1-8705369dbf24",
 			"key": "email",
 			"value": ""
 		},
 		{
-			"id": "254115cb-0a84-4b6f-af42-d60fb2d959b0",
+			"id": "14905d61-b0c2-4b6e-8bef-0c55ce951755",
 			"key": "fullName",
 			"value": ""
 		},
 		{
-			"id": "732c7101-9508-4298-ae28-6b35a1df13db",
+			"id": "2febea60-42ed-4458-b2b6-c7b87252e5c5",
 			"key": "idNumber",
 			"value": ""
 		},
 		{
-			"id": "d66d1cc8-b69b-48cf-9c52-d3c82c9a8c9d",
+			"id": "05ad6fcb-366d-4622-b208-50a9e6569e2f",
 			"key": "walletNo",
 			"value": ""
 		},
 		{
-			"id": "63e07877-346c-439f-a35d-44e38886b857",
+			"id": "f2b71529-985d-48d8-a8da-845c8d68c2a5",
 			"key": "currency",
 			"value": ""
 		},
 		{
-			"id": "a3593930-5a71-438b-ad7e-ab2ac49987d8",
+			"id": "24f0ee76-9c9b-43de-84d8-597975286476",
 			"key": "balance",
 			"value": ""
+		},
+		{
+			"id": "6ba6ac2d-3538-4db7-ba42-7198c558fb0d",
+			"key": "password",
+			"value": "",
+			"type": "string"
 		}
 	]
 }
